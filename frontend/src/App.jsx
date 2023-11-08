@@ -1,14 +1,29 @@
 import React, { useState } from "react";
 import { Route, Link } from "react-router-dom";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
 import AddReview from "./components/addReview";
-import MoviesList from "./components/moviesList";
+import MoviesList from "./pages/moviesList";
 import Movie from "./components/movie";
-import Login from "./components/login";
+import Login from "./pages/login";
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/">
+      <Route path="login" element={<Login />} />
+      <Route path="movies" element={<MoviesList />} />
+    </Route>
+  )
+);
 
 function App() {
   const [user, setUser] = useState(null);
