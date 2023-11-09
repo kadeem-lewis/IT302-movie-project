@@ -97,7 +97,7 @@ export default function MoviesList(props) {
       <Row>
         {movies.map((movie) => {
           return (
-            <Col key={movie.title}>
+            <Col key={movie._id}>
               <Card style={{ width: "18rem" }}>
                 <Card.Img src={movie.poster + "/100px180"} />
                 <Card.Body>
