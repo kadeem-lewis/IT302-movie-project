@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, NavLink } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
@@ -20,11 +20,11 @@ export default function RootLayout() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link>
-              <Link to={"/movies"}>Movies</Link>
+            <Nav.Link as={NavLink} to={"/movies"}>
+              Movies
             </Nav.Link>
-            <Nav.Link>
-              {user ? <a>Logout User</a> : <Link to={"/login"}>Login</Link>}
+            <Nav.Link as={NavLink} to={user ? "" : "/login"}>
+              {user ? "Logout User" : "Login"}
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
