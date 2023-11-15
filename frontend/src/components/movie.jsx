@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-import { get, deleteReview } from "../services/movies";
 import { Link, useLoaderData } from "react-router-dom";
 
 import Card from "react-bootstrap/Card";
