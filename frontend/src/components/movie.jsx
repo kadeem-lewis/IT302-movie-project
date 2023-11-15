@@ -1,4 +1,10 @@
-import { Link, useLoaderData } from "react-router-dom";
+import {
+  Link,
+  useLoaderData,
+  useOutletContext,
+  useParams,
+} from "react-router-dom";
+import { deleteReview } from "../services/movies";
 
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
@@ -7,18 +13,19 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 
-const Movie = (props) => {
+const Movie = () => {
   const movie = useLoaderData();
+  const { user } = useOutletContext();
+  const { id } = useParams();
 
-  const deleteReview = async (reviewId, index) => {
+  // recursion error, since I am using for the fetch request and the function name
+  // since im using loader, I need to do this a different way
+  const handleDeleteReview = async (reviewId, index) => {
+    console.log(reviewId, index);
+    console.log(user.id);
     try {
-      await deleteReview(reviewId, props.user.id);
-      setMovie((prevState) => {
-        prevState.reviews.splice(index, 1);
-        return {
-          ...prevState,
-        };
-      });
+      await deleteReview(reviewId, user.id);
+      movie.reviews = movie.reviews.splice(index, 1);
     } catch (e) {
       console.log(e);
     }
@@ -36,11 +43,7 @@ const Movie = (props) => {
               <Card.Header as="h5">{movie.title}</Card.Header>
               <Card.Body>
                 <Card.Text>{movie.plot}</Card.Text>
-                {props.user && (
-                  <Link to={"/movies/" + props.match.params.id + "/review"}>
-                    Add Review
-                  </Link>
-                )}
+                {user && <Link to={`/movies/${id}/review`}>Add Review</Link>}
               </Card.Body>
             </Card>
             <br></br>
@@ -56,13 +59,12 @@ const Movie = (props) => {
                         new Date(Date.parse(review.date)).toDateString()}
                     </h5>
                     <p>{review.review}</p>
-                    {props.user && props.user.id === review.user_id && (
+                    {user && user.id === review.user_id && (
                       <Row>
                         <Col>
                           <Link
                             to={{
-                              pathname:
-                                "/movies/" + props.match.params.id + "/review",
+                              pathname: `/movies/${id}/review`,
                               state: { currentReview: review },
                             }}
                           >
@@ -72,7 +74,9 @@ const Movie = (props) => {
                         <Col>
                           <Button
                             variant="link"
-                            onClick={() => deleteReview(review._id, index)}
+                            onClick={() =>
+                              handleDeleteReview(review._id, index)
+                            }
                           >
                             Delete
                           </Button>
