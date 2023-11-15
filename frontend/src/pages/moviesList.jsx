@@ -99,7 +99,13 @@ export default function MoviesList(props) {
           return (
             <Col key={movie._id}>
               <Card style={{ width: "18rem" }}>
-                <Card.Img src={movie.poster + "/100px180"} />
+                <Card.Img
+                  src={
+                    movie.poster
+                      ? `${movie.poster}/100px180`
+                      : "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fnelowvision.com%2Fwp-content%2Fuploads%2F2018%2F11%2FPicture-Unavailable.jpg&f=1&nofb=1&ipt=7a40670a4fdad80fa0665a9fa6654d76a1beb59968032d9644b3cf98568e619b&ipo=images"
+                  }
+                />
                 <Card.Body>
                   <Card.Title>{movie.title}</Card.Title>
                   <Card.Text>Rating: {movie.rated}</Card.Text>
