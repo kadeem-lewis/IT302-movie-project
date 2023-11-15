@@ -1,17 +1,26 @@
 import React, { useState } from "react";
 import { createReview, updateReview } from "../services/movies";
 
-import { Link, Form as RouterForm } from "react-router-dom";
+import {
+  Link,
+  Form as RouterForm,
+  useOutletContext,
+  useParams,
+  useLocation,
+} from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-const AddReview = (props) => {
+const AddReview = () => {
+  const { user } = useOutletContext();
+  const { id } = useParams();
+  const location = useLocation();
   let editing = false;
   let initialReviewState = "";
 
-  if (props.location.state && props.location.state.currentReview) {
+  if (location.state && location.state.currentReview) {
     editing = true;
-    initialReviewState = props.location.state.currentReview.review;
+    initialReviewState = location.state.currentReview.review;
   }
 
   const [review, setReview] = useState(initialReviewState);
@@ -23,31 +32,31 @@ const AddReview = (props) => {
     setReview(review);
   };
 
-  const saveReview = () => {
+  const saveReview = async () => {
     var data = {
       review: review,
-      name: props.user.name,
-      user_id: props.user.id,
+      name: user.name,
+      user_id: user.id,
       // get movie id direct from url
-      movie_id: props.match.params.id,
+      movie_id: id,
     };
     if (editing) {
-      // get existing review id
-      data.review_id = props.location.state.currentReview._id;
-      updateReview(data)
-        .then((response) => {
-          setSubmitted(true);
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      try {
+        // get existing review id
+        data.review_id = location.state.currentReview._id;
+        const response = await updateReview(data);
+        setSubmitted(true);
+        console.log(response.data);
+      } catch (e) {
+        console.log(e);
+      }
     } else {
-      createReview(data)
-        .then((response) => {
-          setSubmitted(true);
-        })
-        .catch((e) => {});
+      try {
+        await createReview(data);
+        setSubmitted(true);
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
@@ -56,7 +65,7 @@ const AddReview = (props) => {
       {submitted ? (
         <div>
           <h4>Review submitted successfully</h4>
-          <Link to={"/movies/" + props.match.params.id}>Back to Movie</Link>
+          <Link to={`/movies/${id}`}>Back to Movie</Link>
         </div>
       ) : (
         <Form as={RouterForm}>
