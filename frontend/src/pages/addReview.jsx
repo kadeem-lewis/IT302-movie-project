@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createReview, updateReview } from "../services/movies";
 
-import { Link } from "react-router-dom";
+import { Link, Form as RouterForm } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
@@ -59,7 +59,7 @@ const AddReview = (props) => {
           <Link to={"/movies/" + props.match.params.id}>Back to Movie</Link>
         </div>
       ) : (
-        <Form>
+        <Form as={RouterForm}>
           <Form.Group>
             <Form.Label>{editing ? "Edit" : "Create"} Review</Form.Label>
             <Form.Control
