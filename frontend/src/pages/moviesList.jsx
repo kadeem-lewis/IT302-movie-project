@@ -9,7 +9,7 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 
-export default function MoviesList(props) {
+export default function MoviesList() {
   const [movies, setMovies] = useState([]);
   const [searchTitle, setSearchTitle] = useState("");
   const [searchRating, setSearchRating] = useState("");

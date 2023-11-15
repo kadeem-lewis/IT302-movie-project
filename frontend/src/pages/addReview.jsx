@@ -11,7 +11,7 @@ import {
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-const AddReview = () => {
+export default function AddReview() {
   const { user } = useOutletContext();
   const { id } = useParams();
   const location = useLocation();
@@ -85,6 +85,4 @@ const AddReview = () => {
       )}
     </div>
   );
-};
-
-export default AddReview;
+}

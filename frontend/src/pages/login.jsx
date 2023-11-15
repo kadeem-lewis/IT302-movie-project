@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useOutletContext, useNavigate } from "react-router-dom";
 
-const Login = () => {
+export default function Login() {
   const { login } = useOutletContext();
   const navigate = useNavigate();
 
@@ -52,5 +52,4 @@ const Login = () => {
       </Form>
     </div>
   );
-};
-export default Login;
+}

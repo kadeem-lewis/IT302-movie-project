@@ -13,7 +13,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 
-const Movie = () => {
+export default function Movie() {
   const movie = useLoaderData();
   const { user } = useOutletContext();
   const { id } = useParams();
@@ -90,6 +90,4 @@ const Movie = () => {
       </Container>
     </div>
   );
-};
-
-export default Movie;
+}
