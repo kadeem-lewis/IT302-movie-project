@@ -46,7 +46,7 @@ export async function deleteReview(id, userId) {
     headers: {
       "Content-Type": "application/json",
     },
-    data: json.stringify({ review_id: id, user_id: userId }),
+    data: JSON.stringify({ review_id: id, user_id: userId }),
   });
   const data = res.json();
   return data;
