@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
 import { useOutletContext, useNavigate } from "react-router-dom";
 
 export default function Login() {
@@ -24,7 +25,7 @@ export default function Login() {
   };
 
   return (
-    <div>
+    <Container>
       <Form>
         <Form.Group>
           <Form.Label>Username</Form.Label>
@@ -50,6 +51,6 @@ export default function Login() {
           Submit
         </Button>
       </Form>
-    </div>
+    </Container>
   );
 }
