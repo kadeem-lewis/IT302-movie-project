@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { get, deleteReview } from "../services/movies";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
@@ -8,27 +8,9 @@ import Image from "react-bootstrap/Image";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
-import Media from "react-bootstrap/Media";
 
 const Movie = (props) => {
-  const [movie, setMovie] = useState({
-    id: null,
-    title: "",
-    rated: "",
-    reviews: [],
-  });
-  const getMovie = async (id) => {
-    try {
-      const response = await get(id);
-      setMovie(response.data);
-      console.log(response.data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  useEffect(() => {
-    getMovie(props.match.params.id);
-  }, [props.match.params.id]);
+  const movie = useLoaderData();
 
   const deleteReview = async (reviewId, index) => {
     try {
@@ -68,8 +50,8 @@ const Movie = (props) => {
             <br></br>
             {movie.reviews.map((review, index) => {
               return (
-                <Media key={index}>
-                  <Media.Body>
+                <div key={index}>
+                  <div>
                     <h5>
                       {review.name +
                         " reviewed on " +
@@ -99,8 +81,8 @@ const Movie = (props) => {
                         </Col>
                       </Row>
                     )}
-                  </Media.Body>
-                </Media>
+                  </div>
+                </div>
               );
             })}
           </Col>
