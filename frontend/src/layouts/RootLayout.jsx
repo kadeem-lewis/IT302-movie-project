@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
 export default function RootLayout() {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   async function login(user = null) {
     setUser(user);
+    navigate("/");
   }
 
   async function logout() {
