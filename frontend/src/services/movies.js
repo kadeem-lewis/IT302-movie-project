@@ -19,7 +19,7 @@ export async function find(query, by = "title", page = 0) {
   return data;
 }
 export async function createReview(data) {
-  const res = await fetch("${baseUrl}/api/v1/movies/review", {
+  const res = await fetch(`${baseUrl}/api/v1/movies/review`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
