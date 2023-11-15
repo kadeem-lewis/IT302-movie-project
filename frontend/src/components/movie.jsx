@@ -63,10 +63,8 @@ const Movie = () => {
                       <Row>
                         <Col>
                           <Link
-                            to={{
-                              pathname: `/movies/${id}/review`,
-                              state: { currentReview: review },
-                            }}
+                            to={`/movies/${id}/review`}
+                            state={{ currentReview: review }}
                           >
                             Edit
                           </Link>
