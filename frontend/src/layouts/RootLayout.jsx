@@ -5,11 +5,9 @@ import Navbar from "react-bootstrap/Navbar";
 
 export default function RootLayout() {
   const [user, setUser] = useState(null);
-  const navigate = useNavigate();
 
   async function login(user = null) {
     setUser(user);
-    navigate("/");
   }
 
   async function logout() {
@@ -32,7 +30,7 @@ export default function RootLayout() {
         </Navbar.Collapse>
       </Navbar>
       <main>
-        <Outlet context={[user, setUser, login, logout]} />
+        <Outlet context={{ user, setUser, login, logout }} />
       </main>
     </div>
   );
