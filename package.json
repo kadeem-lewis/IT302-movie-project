@@ -1,0 +1,19 @@
+{
+  "name": "movie_reviews",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "turbo dev"
+  },
+  "workspaces": [
+    "./frontend",
+    "./backend"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "turbo": "^1.10.16"
+  }
+}
