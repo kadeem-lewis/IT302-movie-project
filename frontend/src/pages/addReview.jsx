@@ -14,13 +14,13 @@ import Button from "react-bootstrap/Button";
 export default function AddReview() {
   const { user } = useOutletContext();
   const { id } = useParams();
-  const location = useLocation();
+  const { state } = useLocation();
   let editing = false;
   let initialReviewState = "";
 
-  if (location.state && location.state.currentReview) {
+  if (state && state.currentReview) {
     editing = true;
-    initialReviewState = location.state.currentReview.review;
+    initialReviewState = state.currentReview.review;
   }
 
   const [review, setReview] = useState(initialReviewState);
@@ -43,7 +43,7 @@ export default function AddReview() {
     if (editing) {
       try {
         // get existing review id
-        data.review_id = location.state.currentReview._id;
+        data.review_id = state.currentReview._id;
         const response = await updateReview(data);
         setSubmitted(true);
         console.log(response.data);
