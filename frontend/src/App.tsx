@@ -23,7 +23,7 @@ const router = createBrowserRouter(
         path="movies/:id"
         element={<Movie />}
         loader={async ({ params }) => {
-          return get(params.id);
+          return get(params.id as string);
         }}
       />
       <Route path="movies/:id/review" element={<AddReview />} />
