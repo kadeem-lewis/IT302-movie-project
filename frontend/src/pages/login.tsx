@@ -49,7 +49,9 @@ export default function Login() {
             onChange={onChangeId}
           />
         </Form.Group>
-        <Button variant="primary">Submit</Button>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
       </Form>
     </Container>
   );
