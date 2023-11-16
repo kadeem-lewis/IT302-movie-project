@@ -1,7 +1,14 @@
 import { useState } from "react";
-import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+
+export type OutletContext = {
+  user: any;
+  setUser: any;
+  login: any;
+  logout: () => void;
+};
 
 export default function RootLayout() {
   const [user, setUser] = useState(null);
