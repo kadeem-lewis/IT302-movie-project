@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { find, getAll, getRatings } from "../services/movies";
+import { Review, find, getAll, getRatings } from "../services/movies";
 import { Link } from "react-router-dom";
 
 import Form from "react-bootstrap/Form";
@@ -9,8 +9,17 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 
+export type Movie = {
+  _id: string;
+  title: string;
+  rated: string;
+  plot: string;
+  poster: string;
+  reviews: Review[];
+};
+
 export default function MoviesList() {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [searchTitle, setSearchTitle] = useState("");
   const [searchRating, setSearchRating] = useState("");
   const [ratings, setRatings] = useState(["All Ratings"]);
@@ -53,16 +62,16 @@ export default function MoviesList() {
     setRatings(["All Ratings"].concat(res));
   };
 
-  const onChangeSearchTitle = (e) => {
+  const onChangeSearchTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchTitle = e.target.value;
     setSearchTitle(searchTitle);
   };
-  const onChangeSearchRating = (e) => {
+  const onChangeSearchRating = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchRating = e.target.value;
     setSearchRating(searchRating);
   };
 
-  const findMovies = async (query, by) => {
+  const findMovies = async (query: string, by: string) => {
     const res = await find(query, by, currentPage);
     console.log(res);
     setMovies(res.movies);
