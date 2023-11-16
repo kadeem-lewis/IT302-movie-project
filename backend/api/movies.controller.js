@@ -18,7 +18,7 @@ export default class MoviesController {
       moviesPerPage,
     });
 
-    let response = {
+    const response = {
       movies: moviesList,
       page: page,
       filters: filters,
@@ -30,8 +30,8 @@ export default class MoviesController {
 
   static async apiGetMovieById(req, res, next) {
     try {
-      let id = req.params.id || {};
-      let movie = await MoviesDAO.getMovieById(id);
+      const id = req.params.id || {};
+      const movie = await MoviesDAO.getMovieById(id);
       if (!movie) {
         res.status(404).json({ error: "not found" });
         return;
@@ -45,7 +45,7 @@ export default class MoviesController {
 
   static async apiGetRatings(req, res, next) {
     try {
-      let propertyTypes = await MoviesDAO.getRatings();
+      const propertyTypes = await MoviesDAO.getRatings();
       res.json(propertyTypes);
     } catch (e) {
       console.log(`api, ${e}`);

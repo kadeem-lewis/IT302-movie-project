@@ -35,7 +35,7 @@ export default class ReviewsController {
         date
       )
   
-      var { error } = ReviewResponse
+      const { error } = ReviewResponse
       if(error) {
         res.status.json({error})
       }
