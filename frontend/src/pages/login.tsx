@@ -3,30 +3,32 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import { useOutletContext, useNavigate } from "react-router-dom";
+import { OutletContext } from "../layouts/RootLayout";
 
 export default function Login() {
-  const { login } = useOutletContext();
+  const { login } = useOutletContext<OutletContext>();
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [id, setId] = useState("");
 
-  const onChangeName = (e) => {
-    const name = e.target.value;
+  const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const name = event.target.value;
     setName(name);
   };
-  const onChangeId = (e) => {
-    const id = e.target.value;
+  const onChangeId = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const id = event.target.value;
     setId(id);
   };
-  const handleLogin = () => {
+  const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     login({ name: name, id: id });
     navigate("/movies");
   };
 
   return (
     <Container>
-      <Form>
+      <Form onSubmit={handleLogin}>
         <Form.Group>
           <Form.Label>Username</Form.Label>
           <Form.Control
@@ -47,9 +49,7 @@ export default function Login() {
             onChange={onChangeId}
           />
         </Form.Group>
-        <Button variant="primary" onClick={() => handleLogin()}>
-          Submit
-        </Button>
+        <Button variant="primary">Submit</Button>
       </Form>
     </Container>
   );
