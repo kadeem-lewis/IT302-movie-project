@@ -1,8 +1,13 @@
 import ReviewsDAO from '../dao/reviewsDAO.js'
+import { Request, Response, NextFunction } from 'express'
 
+export type User = {
+  name: any,
+  _id: any
+}
 export default class ReviewsController {
 
-  static async apiPostReview(req,res,next) {
+  static async apiPostReview(req: Request,res:Response,next:NextFunction) {
     try {
       const movieId = req.body.movie_id
       const review = req.body.review
@@ -19,11 +24,11 @@ export default class ReviewsController {
         date
       )
     res.json(ReviewResponse)
-    } catch(e) {
+    } catch(e:any) {
     res.status(500).json({ error: e.message })
     }
   }
-  static async apiUpdateReview(req,res,next) {
+  static async apiUpdateReview(req: Request,res:Response,next:NextFunction) {
     try {
       const reviewId = req.body.review_id
       const review = req.body.review
@@ -35,19 +40,19 @@ export default class ReviewsController {
         date
       )
   
-      var { error } = ReviewResponse
+      const { error } = ReviewResponse
       if(error) {
-        res.status.json({error})
+        res.status(500).json({error})
       }
       if(ReviewResponse.modifiedCount === 0) {
         throw new Error ("unable to update review. User may not be original poster")
       }
       res.json(ReviewResponse)
-    } catch(e) {
+    } catch(e:any) {
       res.status(500).json({ error: e.message})
     }
   }
-  static async apiDeleteReview(req,res,next) {
+  static async apiDeleteReview(req: Request,res:Response,next:NextFunction) {
     try {
       const reviewId = req.body.review_id
       const userId = req.body.user_id
@@ -56,7 +61,7 @@ export default class ReviewsController {
         userId,
       )
       res.json(ReviewResponse)
-    } catch(e) {
+    } catch(e:any) {
       res.status(500).json({ error: e.message})
     }
   }

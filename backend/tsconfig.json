@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+      "module": "NodeNext", //nodenext recommended in ts docs
+      "moduleResolution": "NodeNext",
+      "target": "ESNext",
+      "esModuleInterop": true,
+      "composite": true,
+      "strict": true,
+      "sourceMap": true,
+      "outDir": "dist"
+    },
+    "include": ["src/**/*"]
+  }

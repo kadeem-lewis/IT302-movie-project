@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createReview, updateReview } from "../services/movies";
+import { Review, createReview, updateReview } from "../services/movies";
 
 import {
   Link,
@@ -10,40 +10,41 @@ import {
 } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { OutletContext } from "../layouts/RootLayout";
 
 export default function AddReview() {
-  const { user } = useOutletContext();
+  const { user } = useOutletContext<OutletContext>();
   const { id } = useParams();
-  const location = useLocation();
+  const { state } = useLocation();
   let editing = false;
   let initialReviewState = "";
 
-  if (location.state && location.state.currentReview) {
+  if (state && state.currentReview) {
     editing = true;
-    initialReviewState = location.state.currentReview.review;
+    initialReviewState = state.currentReview.review;
   }
 
   const [review, setReview] = useState(initialReviewState);
   // keeps track if review is submitted
   const [submitted, setSubmitted] = useState(false);
 
-  const onChangeReview = (e) => {
+  const onChangeReview = (e: React.ChangeEvent<HTMLInputElement>) => {
     const review = e.target.value;
     setReview(review);
   };
 
   const saveReview = async () => {
-    var data = {
+    const data: Review = {
       review: review,
       name: user.name,
       user_id: user.id,
       // get movie id direct from url
-      movie_id: id,
+      movie_id: id as string,
     };
     if (editing) {
       try {
         // get existing review id
-        data.review_id = location.state.currentReview._id;
+        data.review_id = state.currentReview._id;
         const response = await updateReview(data);
         setSubmitted(true);
         console.log(response.data);

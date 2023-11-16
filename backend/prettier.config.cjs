@@ -1,3 +1,0 @@
-module.exports = {
-  plugins: ["./node_modules/prettier-plugin-jsdoc/dist/index.js"],
-};

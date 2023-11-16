@@ -1,3 +1,13 @@
+export type Review = {
+  _id?: string;
+  review: string;
+  user_id: string;
+  movie_id: string;
+  name: string;
+  date?: string;
+  review_id?: string;
+};
+
 const baseUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
 export async function getAll(page = 0) {
@@ -5,20 +15,20 @@ export async function getAll(page = 0) {
   const data = res.json();
   return data;
 }
-export async function get(id) {
+export async function get(id: string) {
   const res = await fetch(`${baseUrl}/api/v1/movies/id/${id}`);
   const data = res.json();
   console.log(data);
   return data;
 }
-export async function find(query, by = "title", page = 0) {
+export async function find(query: string, by = "title", page = 0) {
   const res = await fetch(
     `${baseUrl}/api/v1/movies?${by}=${query}&page=${page}`
   );
   const data = res.json();
   return data;
 }
-export async function createReview(data) {
+export async function createReview(data: Review) {
   const res = await fetch(`${baseUrl}/api/v1/movies/review`, {
     method: "POST",
     headers: {
@@ -29,7 +39,7 @@ export async function createReview(data) {
   const result = await res.json();
   return result;
 }
-export async function updateReview(data) {
+export async function updateReview(data: Review) {
   const res = await fetch(`${baseUrl}/api/v1/movies/review`, {
     method: "PUT",
     headers: {
@@ -40,7 +50,7 @@ export async function updateReview(data) {
   const result = await res.json();
   return result;
 }
-export async function deleteReview(id, userId) {
+export async function deleteReview(id: string, userId: string) {
   const res = await fetch(`${baseUrl}/api/v1/movies/review`, {
     method: "DELETE",
     headers: {

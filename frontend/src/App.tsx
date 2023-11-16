@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   RouterProvider,
   createBrowserRouter,
@@ -13,17 +12,18 @@ import MoviesList from "./pages/moviesList";
 import Movie from "./components/movie";
 import Login from "./pages/login";
 import RootLayout from "./layouts/RootLayout";
+import ErrorPage from "./pages/errorPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<RootLayout />}>
+    <Route path="/" element={<RootLayout />} errorElement={<ErrorPage />}>
       <Route index element={<MoviesList />} />
       <Route path="movies" element={<MoviesList />} />
       <Route
         path="movies/:id"
         element={<Movie />}
         loader={async ({ params }) => {
-          return get(params.id);
+          return get(params.id as string);
         }}
       />
       <Route path="movies/:id/review" element={<AddReview />} />

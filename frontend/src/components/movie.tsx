@@ -5,6 +5,7 @@ import {
   useParams,
 } from "react-router-dom";
 import { deleteReview } from "../services/movies";
+import type { Movie } from "../pages/moviesList";
 
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
@@ -12,15 +13,16 @@ import Image from "react-bootstrap/Image";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
+import { OutletContext } from "../layouts/RootLayout";
 
 export default function Movie() {
-  const movie = useLoaderData();
-  const { user } = useOutletContext();
+  const movie = useLoaderData() as Movie;
+  const { user } = useOutletContext<OutletContext>();
   const { id } = useParams();
 
   // recursion error, since I am using for the fetch request and the function name
   // since im using loader, I need to do this a different way
-  const handleDeleteReview = async (reviewId, index) => {
+  const handleDeleteReview = async (reviewId: string, index: number) => {
     console.log(reviewId, index);
     console.log(user.id);
     try {
@@ -56,7 +58,9 @@ export default function Movie() {
                     <h5>
                       {review.name +
                         " reviewed on " +
-                        new Date(Date.parse(review.date)).toDateString()}
+                        new Date(
+                          Date.parse(review.date as string)
+                        ).toDateString()}
                     </h5>
                     <p>{review.review}</p>
                     {user && user.id === review.user_id && (
@@ -73,7 +77,7 @@ export default function Movie() {
                           <Button
                             variant="link"
                             onClick={() =>
-                              handleDeleteReview(review._id, index)
+                              handleDeleteReview(review._id as string, index)
                             }
                           >
                             Delete
