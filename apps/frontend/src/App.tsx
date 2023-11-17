@@ -9,7 +9,7 @@ import { get } from "./services/movies";
 
 import AddReview from "./pages/addReview";
 import MoviesList from "./pages/moviesList";
-import Movie from "./components/movie";
+import Movie from "./pages/movie";
 import Login from "./pages/login";
 import RootLayout from "./layouts/RootLayout";
 import ErrorPage from "./pages/errorPage";
@@ -28,8 +28,8 @@ const router = createBrowserRouter(
       />
       <Route path="movies/:id/review" element={<AddReview />} />
       <Route path="login" element={<Login />} />
-    </Route>
-  )
+    </Route>,
+  ),
 );
 
 export default function App() {

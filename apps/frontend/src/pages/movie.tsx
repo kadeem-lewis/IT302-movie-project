@@ -5,7 +5,7 @@ import {
   useParams,
 } from "react-router-dom";
 import { deleteReview } from "../services/movies";
-import type { Movie as MovieType } from "../pages/moviesList";
+import type { Movie as MovieType } from "./moviesList";
 
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
