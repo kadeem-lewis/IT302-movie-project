@@ -48,18 +48,26 @@ export default function MoviesList() {
   };
 
   const retrieveMovies = async () => {
-    setCurrentSearchMode("");
-    const res = await getAll();
-    console.log(res);
-    setMovies(res.movies);
-    setCurrentPage(res.page);
-    setEntriesPerPage(res.entries_per_page);
+    try {
+      setCurrentSearchMode("");
+      const res = await getAll();
+      console.log(res);
+      setMovies(res.movies);
+      setCurrentPage(res.page);
+      setEntriesPerPage(res.entries_per_page);
+    } catch (error) {
+      console.error(error);
+    }
   };
   const retrieveRatings = async () => {
-    const res = await getRatings();
-    console.log(res);
-    //start with 'All ratings' if user doesn't specify any ratings
-    setRatings(["All Ratings"].concat(res));
+    try {
+      const res = await getRatings();
+      console.log(res);
+      //start with 'All ratings' if user doesn't specify any ratings
+      setRatings(["All Ratings"].concat(res));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const onChangeSearchTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,9 +80,13 @@ export default function MoviesList() {
   };
 
   const findMovies = async (query: string, by: string) => {
-    const res = await find(query, by, currentPage);
-    console.log(res);
-    setMovies(res.movies);
+    try {
+      const res = await find(query, by, currentPage);
+      console.log(res);
+      setMovies(res.movies);
+    } catch (error) {
+      console.error(error);
+    }
   };
   const findByTitle = () => {
     setCurrentSearchMode("findByTitle");
