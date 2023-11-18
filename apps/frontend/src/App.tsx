@@ -5,7 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { get } from "./services/movies";
+import { createReview, get, updateReview } from "./services/movies";
 
 import AddReview from "./pages/addReview";
 import MoviesList from "./pages/moviesList";
@@ -26,7 +26,25 @@ const router = createBrowserRouter(
           return get(params.id as string);
         }}
       />
-      <Route path="movies/:id/review" element={<AddReview />} />
+      <Route
+        path="movies/:id/review"
+        element={<AddReview />}
+        action={async ({ request }) => {
+          const formData = await request.formData();
+          if (formData) {
+            switch (request.method) {
+              case "PUT": {
+                await updateReview(formData);
+                break;
+              }
+              case "POST": {
+                await createReview(formData);
+                break;
+              }
+            }
+          }
+        }}
+      />
       <Route path="login" element={<Login />} />
     </Route>,
   ),
