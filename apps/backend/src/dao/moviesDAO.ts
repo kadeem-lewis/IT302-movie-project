@@ -1,10 +1,9 @@
-import mongodb from "mongodb";
-const ObjectId = mongodb.ObjectId;
+import { ObjectId } from "mongodb";
 
-let movies:any;
+let movies: any;
 
 export default class MoviesDAO {
-  static async injectDB(conn:any) {
+  static async injectDB(conn: any) {
     if (movies) {
       return;
     }
@@ -44,7 +43,7 @@ export default class MoviesDAO {
     }
   }
 
-  static async getMovieById(id:any) {
+  static async getMovieById(id: any) {
     try {
       return await movies
         .aggregate([
