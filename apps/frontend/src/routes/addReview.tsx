@@ -69,7 +69,7 @@ export default function AddReview() {
           <Link to={`/movies/${id}`}>Back to Movie</Link>
         </div>
       ) : (
-        <Form as={RouterForm} method={editing ? "PUT" : "POST"}>
+        <Form as={RouterForm}>
           <Form.Group>
             <Form.Label>{editing ? "Edit" : "Create"} Review</Form.Label>
             <Form.Control
