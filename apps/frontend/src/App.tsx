@@ -7,12 +7,12 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import { get } from "./services/movies";
 
-import AddReview from "./pages/addReview";
-import MoviesList from "./pages/moviesList";
-import Movie from "./components/movie";
-import Login from "./pages/login";
+import AddReview from "./routes/addReview";
+import MoviesList from "./routes/moviesList";
+import Movie from "./routes/movie";
+import Login from "./routes/login";
 import RootLayout from "./layouts/RootLayout";
-import ErrorPage from "./pages/errorPage";
+import ErrorPage from "./routes/errorPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,10 +26,13 @@ const router = createBrowserRouter(
           return get(params.id as string);
         }}
       />
-      <Route path="movies/:id/review" element={<AddReview />} />
+      <Route
+        path="movies/:id/review"
+        element={<AddReview />}
+      />
       <Route path="login" element={<Login />} />
-    </Route>
-  )
+    </Route>,
+  ),
 );
 
 export default function App() {

@@ -74,6 +74,7 @@ export default function AddReview() {
             <Form.Label>{editing ? "Edit" : "Create"} Review</Form.Label>
             <Form.Control
               type="text"
+              name="review"
               required
               value={review}
               onChange={onChangeReview}

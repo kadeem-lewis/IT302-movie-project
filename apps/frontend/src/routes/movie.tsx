@@ -5,7 +5,7 @@ import {
   useParams,
 } from "react-router-dom";
 import { deleteReview } from "../services/movies";
-import type { Movie } from "../pages/moviesList";
+import type { Movie as MovieType } from "./moviesList";
 
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
@@ -16,7 +16,7 @@ import Button from "react-bootstrap/Button";
 import { OutletContext } from "../layouts/RootLayout";
 
 export default function Movie() {
-  const movie = useLoaderData() as Movie;
+  const movie = useLoaderData() as MovieType;
   const { user } = useOutletContext<OutletContext>();
   const { id } = useParams();
 
@@ -59,7 +59,7 @@ export default function Movie() {
                       {review.name +
                         " reviewed on " +
                         new Date(
-                          Date.parse(review.date as string)
+                          Date.parse(review.date as string),
                         ).toDateString()}
                     </h5>
                     <p>{review.review}</p>
