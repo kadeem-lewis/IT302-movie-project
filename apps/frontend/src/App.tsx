@@ -10,6 +10,7 @@ import AddReview from "./routes/addReview";
 import MoviesList from "./routes/moviesList";
 import Movie from "./routes/movie";
 import Login from "./routes/login";
+import Signup from "./routes/signup";
 import RootLayout from "./layouts/RootLayout";
 import ErrorPage from "./routes/errorPage";
 
@@ -30,6 +31,7 @@ const router = createBrowserRouter(
         element={<AddReview />}
       />
       <Route path="login" element={<Login />} />
+      <Route path="signup" element={<Signup />} />
     </Route>,
   ),
 );
