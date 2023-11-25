@@ -1,6 +1,12 @@
 import { useState } from "react";
-import { Outlet, NavLink } from "react-router-dom";
-import {  Navbar,   NavbarBrand,   NavbarContent,   NavbarItem,   NavbarMenuToggle,  NavbarMenu,  NavbarMenuItem} from "@nextui-org/react";
+import { Outlet, NavLink, Link } from "react-router-dom";
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  Button,
+} from "@nextui-org/react";
 
 export type OutletContext = {
   user: any;
@@ -20,25 +26,31 @@ export default function RootLayout() {
     setUser(null);
   }
   return (
-    <div>
+    <>
       <Navbar>
-        <NavbarBrand>Movie Reviews</NavbarBrand>
-        <NavbarContent>
+        <NavbarBrand className="font-bold uppercase">
+          <Link to="/">Movie Reviews</Link>
+        </NavbarBrand>
+        <NavbarContent justify="center">
           <NavbarItem>
-          <NavLink to={"/movies"}>
-              Movies
-            </NavLink>
+            <NavLink to={"/movies"}>Movies</NavLink>
           </NavbarItem>
+        </NavbarContent>
+        <NavbarContent justify="end">
           <NavbarItem>
-          <NavLink to={user ? "" : "/login"}>
-              {user ? "Logout User" : "Login"}
-            </NavLink>
+            {user ? (
+              <NavLink to="">Logout User</NavLink>
+            ) : (
+              <Button as={Link} to={"/login"} color="primary" variant="flat">
+                Login
+              </Button>
+            )}
           </NavbarItem>
         </NavbarContent>
       </Navbar>
       <main>
         <Outlet context={{ user, setUser, login, logout }} />
       </main>
-    </div>
+    </>
   );
 }
