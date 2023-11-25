@@ -2,7 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Review, find, getAll, getRatings } from "../services/movies";
 import { Link, Form } from "react-router-dom";
 
-import {Card, CardHeader, CardBody, CardFooter, Image,Select, SelectItem, Button,Input} from "@nextui-org/react";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  Image,
+  Select,
+  SelectItem,
+  Button,
+  Input,
+} from "@nextui-org/react";
 
 export type Movie = {
   _id: string;
@@ -10,6 +19,14 @@ export type Movie = {
   rated: string;
   plot: string;
   poster: string;
+  year: number;
+  fullplot: string;
+  imdb: {
+    rating: number;
+    votes: number;
+    id: number;
+  };
+  released: string;
   reviews: Review[];
 };
 
@@ -101,56 +118,60 @@ export default function MoviesList() {
       <div className="container mx-auto">
         <Form>
           <div className="flex justify-between gap-4">
-                <Input
-                  type="text"
-                  placeholder="Search by title"
-                  value={searchTitle}
-                  onChange={onChangeSearchTitle}
-                />
-              <Button type="button" onClick={findByTitle}>
-                Search
-              </Button>
+            <Input
+              type="text"
+              placeholder="Search by title"
+              value={searchTitle}
+              onChange={onChangeSearchTitle}
+            />
+            <Button type="button" onClick={findByTitle}>
+              Search
+            </Button>
 
-
-                <Select onChange={onChangeSearchRating}>
-                  {ratings.map((rating) => {
-                    return (
-                      <SelectItem key={rating} value={rating}>
-                        {rating}
-                      </SelectItem>
-                    );
-                  })}
-                </Select>
-              <Button type="button" onClick={findByRating}>
-                Search
-              </Button>
+            <Select onChange={onChangeSearchRating}>
+              {ratings.map((rating) => {
+                return (
+                  <SelectItem key={rating} value={rating}>
+                    {rating}
+                  </SelectItem>
+                );
+              })}
+            </Select>
+            <Button type="button" onClick={findByRating}>
+              Search
+            </Button>
           </div>
-
-
-
         </Form>
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-5 gap-4">
           {movies.map((movie) => {
             return (
-                <Card key={movie._id}>
-                  <CardHeader>
-                  <Image
-                    src={movie.poster}
-                    fallbackSrc="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fnelowvision.com%2Fwp-content%2Fuploads%2F2018%2F11%2FPicture-Unavailable.jpg&f=1&nofb=1&ipt=7a40670a4fdad80fa0665a9fa6654d76a1beb59968032d9644b3cf98568e619b&ipo=images"
-                    width={200}
-                    height={300}
-                    alt="movie poster"
-                  />
-                  </CardHeader>
-                  <CardBody>
-                    <span className="font-semibold text-xl">{movie.title}</span>
-                    <span>Rating: {movie.rated}</span>
-                    <span>{movie.plot}</span>
-                  </CardBody>
-                  <CardFooter>
-                  <Link to={"/movies/" + movie._id}>View Reviews</Link>
-                  </CardFooter>
-                </Card>
+              <Card key={movie._id}>
+                <CardBody className="p-0">
+                  <Link to={"/movies/" + movie._id}>
+                    <Image
+                      src={movie.poster}
+                      fallbackSrc="https://via.placeholder.com/200x300"
+                      alt="movie poster"
+                      radius="none"
+                      className="object-cover w-full"
+                    />
+                  </Link>
+                </CardBody>
+                <CardFooter className="flex flex-col">
+                  <Link
+                    to={"/movies/" + movie._id}
+                    className="font-semibold text-xl"
+                  >
+                    {movie.title}
+                  </Link>
+                  <span>{movie.imdb.rating}</span>
+                  <span>
+                    {new Date(
+                      Date.parse(movie.released as string)
+                    ).toDateString()}
+                  </span>
+                </CardFooter>
+              </Card>
             );
           })}
         </div>
