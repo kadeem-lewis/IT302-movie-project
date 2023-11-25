@@ -6,13 +6,8 @@ import {
 } from "react-router-dom";
 import { deleteReview } from "../services/movies";
 import type { Movie as MovieType } from "./moviesList";
-
-import Card from "react-bootstrap/Card";
-import Container from "react-bootstrap/Container";
-import Image from "react-bootstrap/Image";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import Button from "react-bootstrap/Button";
+import { Card,CardHeader, CardBody, Button } from "@nextui-org/react";
+import {Image} from "@nextui-org/react"
 import { OutletContext } from "../layouts/RootLayout";
 
 export default function Movie() {
@@ -35,18 +30,18 @@ export default function Movie() {
 
   return (
     <div>
-      <Container>
-        <Row>
-          <Col>
-            <Image src={movie.poster + "/100px250"} fluid />
-          </Col>
-          <Col>
+      <div className="container mx-auto">
+        <div className="grid grid-cols-2">
+
+            <Image src={movie.poster + "/100px250"} />
+          <div>
+
             <Card>
-              <Card.Header as="h5">{movie.title}</Card.Header>
-              <Card.Body>
-                <Card.Text>{movie.plot}</Card.Text>
+              <CardHeader>{movie.title}</CardHeader>
+              <CardBody>
+                <p>{movie.plot}</p>
                 {user && <Link to={`/movies/${id}/review`}>Add Review</Link>}
-              </Card.Body>
+              </CardBody>
             </Card>
             <br></br>
             <h2>Reviews</h2>
@@ -64,34 +59,33 @@ export default function Movie() {
                     </h5>
                     <p>{review.review}</p>
                     {user && user.id === review.user_id && (
-                      <Row>
-                        <Col>
+                      <div className="grid grid-cols-2">
+
                           <Link
                             to={`/movies/${id}/review`}
                             state={{ currentReview: review }}
                           >
                             Edit
                           </Link>
-                        </Col>
-                        <Col>
+
                           <Button
-                            variant="link"
                             onClick={() =>
                               handleDeleteReview(review._id as string, index)
                             }
                           >
                             Delete
                           </Button>
-                        </Col>
-                      </Row>
+                      </div>
+
+
                     )}
                   </div>
                 </div>
               );
             })}
-          </Col>
-        </Row>
-      </Container>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

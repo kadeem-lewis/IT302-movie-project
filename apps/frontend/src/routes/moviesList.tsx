@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Review, find, getAll, getRatings } from "../services/movies";
-import { Link } from "react-router-dom";
+import { Link, Form } from "react-router-dom";
 
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import Container from "react-bootstrap/Container";
-import Card from "react-bootstrap/Card";
+import {Card, CardHeader, CardBody, CardFooter, Image,Select, SelectItem, Button,Input} from "@nextui-org/react";
 
 export type Movie = {
   _id: string;
@@ -74,7 +69,7 @@ export default function MoviesList() {
     const searchTitle = e.target.value;
     setSearchTitle(searchTitle);
   };
-  const onChangeSearchRating = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeSearchRating = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const searchRating = e.target.value;
     setSearchRating(searchRating);
   };
@@ -102,75 +97,73 @@ export default function MoviesList() {
   };
 
   return (
-    <div className="App">
-      <Container>
+    <div>
+      <div className="container mx-auto">
         <Form>
-          <Row>
-            <Col>
-              <Form.Group>
-                <Form.Control
+          <div className="flex justify-between gap-4">
+                <Input
                   type="text"
                   placeholder="Search by title"
                   value={searchTitle}
                   onChange={onChangeSearchTitle}
                 />
-              </Form.Group>
-              <Button variant="primary" type="button" onClick={findByTitle}>
+              <Button type="button" onClick={findByTitle}>
                 Search
               </Button>
-            </Col>
-            <Col>
-              <Form.Group>
-                <Form.Control as="select" onChange={onChangeSearchRating}>
+
+
+                <Select onChange={onChangeSearchRating}>
                   {ratings.map((rating) => {
                     return (
-                      <option key={rating} value={rating}>
+                      <SelectItem key={rating} value={rating}>
                         {rating}
-                      </option>
+                      </SelectItem>
                     );
                   })}
-                </Form.Control>
-              </Form.Group>
-              <Button variant="primary" type="button" onClick={findByRating}>
+                </Select>
+              <Button type="button" onClick={findByRating}>
                 Search
               </Button>
-            </Col>
-          </Row>
+          </div>
+
+
+
         </Form>
-        <Row>
+        <div className="grid grid-cols-4 gap-4">
           {movies.map((movie) => {
             return (
-              <Col key={movie._id}>
-                <Card style={{ width: "18rem" }}>
-                  <Card.Img
-                    src={
-                      movie.poster
-                        ? `${movie.poster}/100px180`
-                        : "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fnelowvision.com%2Fwp-content%2Fuploads%2F2018%2F11%2FPicture-Unavailable.jpg&f=1&nofb=1&ipt=7a40670a4fdad80fa0665a9fa6654d76a1beb59968032d9644b3cf98568e619b&ipo=images"
-                    }
+                <Card key={movie._id}>
+                  <CardHeader>
+                  <Image
+                    src={movie.poster}
+                    fallbackSrc="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fnelowvision.com%2Fwp-content%2Fuploads%2F2018%2F11%2FPicture-Unavailable.jpg&f=1&nofb=1&ipt=7a40670a4fdad80fa0665a9fa6654d76a1beb59968032d9644b3cf98568e619b&ipo=images"
+                    width={200}
+                    height={300}
+                    alt="movie poster"
                   />
-                  <Card.Body>
-                    <Card.Title>{movie.title}</Card.Title>
-                    <Card.Text>Rating: {movie.rated}</Card.Text>
-                    <Card.Text>{movie.plot}</Card.Text>
-                    <Link to={"/movies/" + movie._id}>View Reviews</Link>
-                  </Card.Body>
+                  </CardHeader>
+                  <CardBody>
+                    <span className="font-semibold text-xl">{movie.title}</span>
+                    <span>Rating: {movie.rated}</span>
+                    <span>{movie.plot}</span>
+                  </CardBody>
+                  <CardFooter>
+                  <Link to={"/movies/" + movie._id}>View Reviews</Link>
+                  </CardFooter>
                 </Card>
-              </Col>
             );
           })}
-        </Row>
+        </div>
         <br />
         Showing page: {currentPage}.
         <Button
-          variant="link"
           onClick={() => {
             setCurrentPage(currentPage + 1);
           }}
         >
           Get next {entriesPerPage} results
         </Button>
-      </Container>
+      </div>
     </div>
   );
 }

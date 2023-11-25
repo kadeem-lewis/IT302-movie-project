@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Outlet, NavLink } from "react-router-dom";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import {  Navbar,   NavbarBrand,   NavbarContent,   NavbarItem,   NavbarMenuToggle,  NavbarMenu,  NavbarMenuItem} from "@nextui-org/react";
 
 export type OutletContext = {
   user: any;
@@ -21,20 +20,21 @@ export default function RootLayout() {
     setUser(null);
   }
   return (
-    <div className="App">
-      <Navbar bg="light" expand="lg">
-        <Navbar.Brand>Movie Reviews</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link as={NavLink} to={"/movies"}>
+    <div>
+      <Navbar>
+        <NavbarBrand>Movie Reviews</NavbarBrand>
+        <NavbarContent>
+          <NavbarItem>
+          <NavLink to={"/movies"}>
               Movies
-            </Nav.Link>
-            <Nav.Link as={NavLink} to={user ? "" : "/login"}>
+            </NavLink>
+          </NavbarItem>
+          <NavbarItem>
+          <NavLink to={user ? "" : "/login"}>
               {user ? "Logout User" : "Login"}
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
+            </NavLink>
+          </NavbarItem>
+        </NavbarContent>
       </Navbar>
       <main>
         <Outlet context={{ user, setUser, login, logout }} />

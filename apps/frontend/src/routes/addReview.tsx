@@ -3,13 +3,12 @@ import { Review, createReview, updateReview } from "../services/movies";
 
 import {
   Link,
-  Form as RouterForm,
+  Form,
   useOutletContext,
   useParams,
   useLocation,
 } from "react-router-dom";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import {Button, Input} from "@nextui-org/react";
 import { OutletContext } from "../layouts/RootLayout";
 
 export default function AddReview() {
@@ -69,18 +68,16 @@ export default function AddReview() {
           <Link to={`/movies/${id}`}>Back to Movie</Link>
         </div>
       ) : (
-        <Form as={RouterForm}>
-          <Form.Group>
-            <Form.Label>{editing ? "Edit" : "Create"} Review</Form.Label>
-            <Form.Control
+        <Form>
+            <Input
               type="text"
+              label={`${editing ? "Edit" : "Create"} Review`}
               name="review"
               required
               value={review}
               onChange={onChangeReview}
             />
-          </Form.Group>
-          <Button variant="primary" onClick={saveReview}>
+          <Button onClick={saveReview}>
             Submit
           </Button>
         </Form>
