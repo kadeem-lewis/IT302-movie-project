@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useOutletContext, useNavigate, Form } from "react-router-dom";
+import { useOutletContext, useNavigate, Form, Link } from "react-router-dom";
 import { OutletContext } from "../layouts/RootLayout";
-import { Input, Button } from "@nextui-org/react";
+import { Card,CardHeader, CardBody,CardFooter, Input, Button } from "@nextui-org/react";
 
 export default function Login() {
   const { login } = useOutletContext<OutletContext>();
@@ -26,7 +26,10 @@ export default function Login() {
 
   return (
     <div className="container mx-auto">
-      <Form onSubmit={handleLogin}>
+      <Card>
+        <CardHeader>Login</CardHeader>
+        <CardBody>
+      <Form onSubmit={handleLogin} className="space-y-3">
           <Input
             type="text"
             label="Username"
@@ -47,6 +50,11 @@ export default function Login() {
           Submit
         </Button>
       </Form>
+      <CardFooter>
+        <p>Don&apos;t have an account? <Link to="/signup">Signup</Link></p>
+      </CardFooter>
+        </CardBody>
+      </Card>
     </div>
   );
 }
