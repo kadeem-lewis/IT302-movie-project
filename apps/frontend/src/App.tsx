@@ -4,7 +4,6 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { get } from "./services/movies";
 
 import AddReview from "./routes/addReview";
