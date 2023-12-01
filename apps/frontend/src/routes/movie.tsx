@@ -39,12 +39,22 @@ export default function Movie() {
   return (
     <>
       <div className="container mx-auto space-y-8">
-        <h1 className="text-3xl">{movie.title}</h1>
-        <span className="flex gap-4">
-          <span>{movie.year}</span>
-          <span>{movie.rated}</span>
-          <span>{movie.runtime}</span>
-        </span>
+        <div className="flex justify-between">
+          <div>
+            <h1 className="text-3xl">{movie.title}</h1>
+            <span className="flex gap-4">
+              <span>{movie.year}</span>
+              <span>{movie.rated}</span>
+              <span>{movie.runtime}</span>
+            </span>
+          </div>
+          <div className="flex flex-col gap-1">
+            <span>IMDb RATING</span>
+            <span>{movie.imdb.rating}/10</span>
+            <span>{movie.imdb.votes}</span>
+            <span></span>
+          </div>
+        </div>
         <div className="flex gap-4">
           <Image src={movie.poster + "/100px250"} />
           <div className="flex flex-col gap-2">
@@ -66,12 +76,14 @@ export default function Movie() {
             <Divider />
             <span>
               Writers:{" "}
-              {movie.writers.map((writer) => (
-                <span key={writer}>{writer.replace(/\(.*?\)/g, "")}</span>
-              ))}
+              {movie.writers
+                ? movie.writers.map((writer) => (
+                    <span key={writer}>{writer.replace(/\(.*?\)/g, "")}</span>
+                  ))
+                : "None"}
             </span>
             <Divider />
-            <span>
+            <span className="flex gap-4">
               Stars:{" "}
               {movie.cast.map((actor) => (
                 <span key={actor}>{actor}</span>
@@ -81,13 +93,6 @@ export default function Movie() {
         </div>
         <div className="grid grid-cols-2">
           <div>
-            <Card>
-              <CardHeader>{movie.title}</CardHeader>
-              <CardBody>
-                <p>{movie.fullplot}</p>
-                {user && <Link to={`/movies/${id}/review`}>Add Review</Link>}
-              </CardBody>
-            </Card>
             <br></br>
             <h2>Reviews</h2>
             <br></br>
