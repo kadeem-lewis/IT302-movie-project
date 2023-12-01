@@ -25,9 +25,9 @@ export default function Movie() {
   // since im using loader, I need to do this a different way
   const handleDeleteReview = async (reviewId: string, index: number) => {
     console.log(reviewId, index);
-    console.log(user.id);
+    console.log(user?.id);
     try {
-      await deleteReview(reviewId, user.id);
+      await deleteReview(reviewId, user?.id as string);
       movie.reviews = movie.reviews.splice(index, 1);
     } catch (e) {
       console.log(e);
@@ -35,8 +35,8 @@ export default function Movie() {
   };
 
   return (
-    <div>
-      <div className="container mx-auto">
+    <>
+      <div className="container mx-auto space-y-8">
         <div className="grid grid-cols-2">
           <Image src={movie.poster + "/100px250"} />
           <div>
@@ -93,6 +93,6 @@ export default function Movie() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
