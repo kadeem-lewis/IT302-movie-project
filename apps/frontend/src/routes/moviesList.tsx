@@ -21,6 +21,11 @@ export type Movie = {
   poster: string;
   year: number;
   fullplot: string;
+  runtime: number;
+  genres: string[];
+  directors: string[];
+  writers: string[];
+  cast: string[];
   imdb: {
     rating: number;
     votes: number;
