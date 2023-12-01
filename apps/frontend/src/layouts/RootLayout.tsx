@@ -3,14 +3,14 @@ import { Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 export type User = {
-  username: string;
+  name: string;
   id: string;
 };
 
 export type OutletContext = {
   user: User | null;
-  setUser: any;
-  login: any;
+  setUser: React.SetStateAction<User | null>;
+  login: (user: User) => void;
   logout: () => void;
 };
 
