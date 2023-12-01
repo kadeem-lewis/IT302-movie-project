@@ -114,8 +114,8 @@ export default function MoviesList() {
   };
 
   return (
-    <div>
-      <div className="container mx-auto">
+    <>
+      <div className="container mx-auto space-y-4">
         <Form>
           <div className="flex justify-between gap-4">
             <Input
@@ -150,10 +150,11 @@ export default function MoviesList() {
                   <Link to={"/movies/" + movie._id}>
                     <Image
                       src={movie.poster}
+                      width={200}
+                      height={300}
                       fallbackSrc="https://via.placeholder.com/200x300"
                       alt="movie poster"
                       radius="none"
-                      className="object-cover w-full"
                     />
                   </Link>
                 </CardBody>
@@ -185,6 +186,6 @@ export default function MoviesList() {
           Get next {entriesPerPage} results
         </Button>
       </div>
-    </div>
+    </>
   );
 }
