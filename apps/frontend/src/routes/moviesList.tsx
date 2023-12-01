@@ -142,7 +142,7 @@ export default function MoviesList() {
             </Button>
           </div>
         </Form>
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {movies.map((movie) => {
             return (
               <Card key={movie._id}>
@@ -168,7 +168,7 @@ export default function MoviesList() {
                   <span>{movie.imdb.rating}</span>
                   <span>
                     {new Date(
-                      Date.parse(movie.released as string)
+                      Date.parse(movie.released as string),
                     ).toDateString()}
                   </span>
                 </CardFooter>
