@@ -12,6 +12,8 @@ import {
   CardBody,
   Button,
   CardFooter,
+  Chip,
+  Divider,
 } from "@nextui-org/react";
 import { Image } from "@nextui-org/react";
 import { OutletContext } from "../layouts/RootLayout";
@@ -37,8 +39,47 @@ export default function Movie() {
   return (
     <>
       <div className="container mx-auto space-y-8">
-        <div className="grid grid-cols-2">
+        <h1 className="text-3xl">{movie.title}</h1>
+        <span className="flex gap-4">
+          <span>{movie.year}</span>
+          <span>{movie.rated}</span>
+          <span>{movie.runtime}</span>
+        </span>
+        <div className="flex gap-4">
           <Image src={movie.poster + "/100px250"} />
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-4">
+              {movie.genres.map((genre) => (
+                <Chip key={genre} variant="bordered">
+                  {genre}
+                </Chip>
+              ))}
+            </div>
+            <div>{movie.plot}</div>
+            <Divider />
+            <span>
+              Director:{" "}
+              {movie.directors.map((director) => (
+                <span key={director}>{director}</span>
+              ))}
+            </span>
+            <Divider />
+            <span>
+              Writers:{" "}
+              {movie.writers.map((writer) => (
+                <span key={writer}>{writer.replace(/\(.*?\)/g, "")}</span>
+              ))}
+            </span>
+            <Divider />
+            <span>
+              Stars:{" "}
+              {movie.cast.map((actor) => (
+                <span key={actor}>{actor}</span>
+              ))}
+            </span>
+          </div>
+        </div>
+        <div className="grid grid-cols-2">
           <div>
             <Card>
               <CardHeader>{movie.title}</CardHeader>
@@ -59,7 +100,7 @@ export default function Movie() {
                         {review.name +
                           " reviewed on " +
                           new Date(
-                            Date.parse(review.date as string)
+                            Date.parse(review.date as string),
                           ).toDateString()}
                       </h5>
                     </CardHeader>
