@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Review, find, getAll, getRatings } from "../services/movies";
-import { Link } from "react-router-dom";
+import { Link, Form } from "react-router-dom";
 
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import Container from "react-bootstrap/Container";
-import Card from "react-bootstrap/Card";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  Image,
+  Select,
+  SelectItem,
+  Button,
+  Input,
+} from "@nextui-org/react";
 
 export type Movie = {
   _id: string;
@@ -15,6 +19,19 @@ export type Movie = {
   rated: string;
   plot: string;
   poster: string;
+  year: number;
+  fullplot: string;
+  runtime: number;
+  genres: string[];
+  directors: string[];
+  writers: string[];
+  cast: string[];
+  imdb: {
+    rating: number;
+    votes: number;
+    id: number;
+  };
+  released: string;
   reviews: Review[];
 };
 
@@ -74,7 +91,7 @@ export default function MoviesList() {
     const searchTitle = e.target.value;
     setSearchTitle(searchTitle);
   };
-  const onChangeSearchRating = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeSearchRating = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const searchRating = e.target.value;
     setSearchRating(searchRating);
   };
@@ -102,75 +119,78 @@ export default function MoviesList() {
   };
 
   return (
-    <div className="App">
-      <Container>
+    <>
+      <div className="container mx-auto space-y-4">
         <Form>
-          <Row>
-            <Col>
-              <Form.Group>
-                <Form.Control
-                  type="text"
-                  placeholder="Search by title"
-                  value={searchTitle}
-                  onChange={onChangeSearchTitle}
-                />
-              </Form.Group>
-              <Button variant="primary" type="button" onClick={findByTitle}>
-                Search
-              </Button>
-            </Col>
-            <Col>
-              <Form.Group>
-                <Form.Control as="select" onChange={onChangeSearchRating}>
-                  {ratings.map((rating) => {
-                    return (
-                      <option key={rating} value={rating}>
-                        {rating}
-                      </option>
-                    );
-                  })}
-                </Form.Control>
-              </Form.Group>
-              <Button variant="primary" type="button" onClick={findByRating}>
-                Search
-              </Button>
-            </Col>
-          </Row>
+          <div className="flex justify-between gap-4">
+            <Input
+              type="text"
+              placeholder="Search by title"
+              value={searchTitle}
+              onChange={onChangeSearchTitle}
+            />
+            <Button type="button" onClick={findByTitle}>
+              Search
+            </Button>
+
+            <Select onChange={onChangeSearchRating}>
+              {ratings.map((rating) => {
+                return (
+                  <SelectItem key={rating} value={rating}>
+                    {rating}
+                  </SelectItem>
+                );
+              })}
+            </Select>
+            <Button type="button" onClick={findByRating}>
+              Search
+            </Button>
+          </div>
         </Form>
-        <Row>
+        <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {movies.map((movie) => {
             return (
-              <Col key={movie._id}>
-                <Card style={{ width: "18rem" }}>
-                  <Card.Img
-                    src={
-                      movie.poster
-                        ? `${movie.poster}/100px180`
-                        : "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fnelowvision.com%2Fwp-content%2Fuploads%2F2018%2F11%2FPicture-Unavailable.jpg&f=1&nofb=1&ipt=7a40670a4fdad80fa0665a9fa6654d76a1beb59968032d9644b3cf98568e619b&ipo=images"
-                    }
-                  />
-                  <Card.Body>
-                    <Card.Title>{movie.title}</Card.Title>
-                    <Card.Text>Rating: {movie.rated}</Card.Text>
-                    <Card.Text>{movie.plot}</Card.Text>
-                    <Link to={"/movies/" + movie._id}>View Reviews</Link>
-                  </Card.Body>
-                </Card>
-              </Col>
+              <Card key={movie._id}>
+                <CardBody className="p-0">
+                  <Link to={"/movies/" + movie._id}>
+                    <Image
+                      src={movie.poster}
+                      width={200}
+                      height={300}
+                      fallbackSrc="https://via.placeholder.com/200x300"
+                      alt="movie poster"
+                      radius="none"
+                    />
+                  </Link>
+                </CardBody>
+                <CardFooter className="flex flex-col">
+                  <Link
+                    to={"/movies/" + movie._id}
+                    className="font-semibold text-xl"
+                  >
+                    {movie.title}
+                  </Link>
+                  <span>{movie.imdb.rating}</span>
+                  <span>
+                    {new Date(
+                      Date.parse(movie.released as string),
+                    ).toDateString()}
+                  </span>
+                </CardFooter>
+              </Card>
             );
           })}
-        </Row>
+        </div>
         <br />
         Showing page: {currentPage}.
         <Button
-          variant="link"
           onClick={() => {
             setCurrentPage(currentPage + 1);
           }}
         >
           Get next {entriesPerPage} results
         </Button>
-      </Container>
-    </div>
+      </div>
+    </>
   );
 }

@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import { useOutletContext, useNavigate } from "react-router-dom";
+import { useOutletContext, useNavigate, Form, Link } from "react-router-dom";
 import { OutletContext } from "../layouts/RootLayout";
+import { Card,CardHeader, CardBody,CardFooter, Input, Button } from "@nextui-org/react";
 
 export default function Login() {
   const { login } = useOutletContext<OutletContext>();
@@ -27,32 +25,36 @@ export default function Login() {
   };
 
   return (
-    <Container>
-      <Form onSubmit={handleLogin}>
-        <Form.Group>
-          <Form.Label>Username</Form.Label>
-          <Form.Control
+    <div className="container mx-auto">
+      <Card>
+        <CardHeader>Login</CardHeader>
+        <CardBody>
+      <Form onSubmit={handleLogin} className="space-y-3">
+          <Input
             type="text"
+            label="Username"
             placeholder="Enter username"
             name="username"
             value={name}
             onChange={onChangeName}
           />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>ID</Form.Label>
-          <Form.Control
+          <Input
             type="text"
+            label="ID"
             placeholder="Enter id"
             name="id"
             value={id}
             onChange={onChangeId}
           />
-        </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button type="submit">
           Submit
         </Button>
       </Form>
-    </Container>
+      <CardFooter>
+        <p>Don&apos;t have an account? <Link to="/signup">Signup</Link></p>
+      </CardFooter>
+        </CardBody>
+      </Card>
+    </div>
   );
 }

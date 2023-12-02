@@ -6,13 +6,16 @@ import {
 } from "react-router-dom";
 import { deleteReview } from "../services/movies";
 import type { Movie as MovieType } from "./moviesList";
-
-import Card from "react-bootstrap/Card";
-import Container from "react-bootstrap/Container";
-import Image from "react-bootstrap/Image";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import Button from "react-bootstrap/Button";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  Button,
+  CardFooter,
+  Chip,
+  Divider,
+} from "@nextui-org/react";
+import { Image } from "@nextui-org/react";
 import { OutletContext } from "../layouts/RootLayout";
 
 export default function Movie() {
@@ -24,9 +27,9 @@ export default function Movie() {
   // since im using loader, I need to do this a different way
   const handleDeleteReview = async (reviewId: string, index: number) => {
     console.log(reviewId, index);
-    console.log(user.id);
+    console.log(user?.id);
     try {
-      await deleteReview(reviewId, user.id);
+      await deleteReview(reviewId, user?.id as string);
       movie.reviews = movie.reviews.splice(index, 1);
     } catch (e) {
       console.log(e);
@@ -34,64 +37,108 @@ export default function Movie() {
   };
 
   return (
-    <div>
-      <Container>
-        <Row>
-          <Col>
-            <Image src={movie.poster + "/100px250"} fluid />
-          </Col>
-          <Col>
-            <Card>
-              <Card.Header as="h5">{movie.title}</Card.Header>
-              <Card.Body>
-                <Card.Text>{movie.plot}</Card.Text>
-                {user && <Link to={`/movies/${id}/review`}>Add Review</Link>}
-              </Card.Body>
-            </Card>
+    <>
+      <div className="container mx-auto space-y-8">
+        <div className="flex justify-between">
+          <div>
+            <h1 className="text-3xl">{movie.title}</h1>
+            <span className="flex gap-4">
+              <span>{movie.year}</span>
+              <span>{movie.rated}</span>
+              <span>{movie.runtime}</span>
+            </span>
+          </div>
+          <div className="flex flex-col gap-1">
+            <span>IMDb RATING</span>
+            <span>{movie.imdb.rating}/10</span>
+            <span>{movie.imdb.votes}</span>
+            <span></span>
+          </div>
+        </div>
+        <div className="flex gap-4">
+          <Image src={movie.poster + "/100px250"} />
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-4">
+              {movie.genres.map((genre) => (
+                <Chip key={genre} variant="bordered">
+                  {genre}
+                </Chip>
+              ))}
+            </div>
+            <div>{movie.plot}</div>
+            <Divider />
+            <span>
+              Director:{" "}
+              {movie.directors.map((director) => (
+                <span key={director}>{director}</span>
+              ))}
+            </span>
+            <Divider />
+            <span>
+              Writers:{" "}
+              {movie.writers
+                ? movie.writers.map((writer) => (
+                    <span key={writer}>{writer.replace(/\(.*?\)/g, "")}</span>
+                  ))
+                : "None"}
+            </span>
+            <Divider />
+            <span className="flex gap-4">
+              Stars:{" "}
+              {movie.cast.map((actor) => (
+                <span key={actor}>{actor}</span>
+              ))}
+            </span>
+          </div>
+        </div>
+        <div className="grid grid-cols-2">
+          <div>
             <br></br>
             <h2>Reviews</h2>
             <br></br>
-            {movie.reviews.map((review, index) => {
-              return (
-                <div key={index}>
-                  <div>
-                    <h5>
-                      {review.name +
-                        " reviewed on " +
-                        new Date(
-                          Date.parse(review.date as string),
-                        ).toDateString()}
-                    </h5>
-                    <p>{review.review}</p>
-                    {user && user.id === review.user_id && (
-                      <Row>
-                        <Col>
+            <section id="reviews" className="space-y-4">
+              {movie.reviews.map((review, index) => {
+                return (
+                  <Card key={index}>
+                    <CardHeader>
+                      <h5>
+                        {review.name +
+                          " reviewed on " +
+                          new Date(
+                            Date.parse(review.date as string),
+                          ).toDateString()}
+                      </h5>
+                    </CardHeader>
+                    <CardBody>
+                      <p>{review.review}</p>
+                    </CardBody>
+                    <CardFooter>
+                      {user && user.id === review.user_id && (
+                        <div className="grid grid-cols-2">
                           <Link
                             to={`/movies/${id}/review`}
                             state={{ currentReview: review }}
                           >
                             Edit
                           </Link>
-                        </Col>
-                        <Col>
+
                           <Button
-                            variant="link"
                             onClick={() =>
                               handleDeleteReview(review._id as string, index)
                             }
                           >
                             Delete
                           </Button>
-                        </Col>
-                      </Row>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </Col>
-        </Row>
-      </Container>
-    </div>
+                        </div>
+                      )}
+                    </CardFooter>
+                  </Card>
+                );
+              })}
+            </section>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

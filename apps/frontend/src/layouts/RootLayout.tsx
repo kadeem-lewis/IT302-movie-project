@@ -1,17 +1,21 @@
 import { useState } from "react";
-import { Outlet, NavLink } from "react-router-dom";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import { Outlet } from "react-router-dom";
+import Navbar from "../components/Navbar";
+
+export type User = {
+  name: string;
+  id: string;
+};
 
 export type OutletContext = {
-  user: any;
-  setUser: any;
-  login: any;
+  user: User | null;
+  setUser: React.SetStateAction<User | null>;
+  login: (user: User) => void;
   logout: () => void;
 };
 
 export default function RootLayout() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
 
   async function login(user = null) {
     setUser(user);
@@ -21,24 +25,11 @@ export default function RootLayout() {
     setUser(null);
   }
   return (
-    <div className="App">
-      <Navbar bg="light" expand="lg">
-        <Navbar.Brand>Movie Reviews</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link as={NavLink} to={"/movies"}>
-              Movies
-            </Nav.Link>
-            <Nav.Link as={NavLink} to={user ? "" : "/login"}>
-              {user ? "Logout User" : "Login"}
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-      <main>
+    <>
+      <Navbar user={user} />
+      <main className="max-w-7xl container px-6 mx-auto">
         <Outlet context={{ user, setUser, login, logout }} />
       </main>
-    </div>
+    </>
   );
 }
