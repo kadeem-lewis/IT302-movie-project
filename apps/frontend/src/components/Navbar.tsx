@@ -24,7 +24,7 @@ export default function Navbar({ user }: NavbarProps) {
         <NavbarBrand as="li" className=" grow-0">
           <Link to="/" className="gap-2 flex font-bold uppercase items-center">
             <span className="border rounded-lg bg-black px-1 py-0.5 text-white">
-              MV
+              MR
             </span>
             <span>Movie Reviews</span>
           </Link>
