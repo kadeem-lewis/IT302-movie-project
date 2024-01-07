@@ -3,7 +3,7 @@ import { Button } from "@nextui-org/react";
 
 export const AuthProviders = () => {
   return (
-    <div className="flex justify-between">
+    <div className="flex gap-4">
       <Button>
         <Icons.google className="w-6 h-6" />
       </Button>
