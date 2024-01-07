@@ -23,6 +23,10 @@ export default function Movie() {
   const { user } = useOutletContext<OutletContext>();
   const { id } = useParams();
 
+  const runtime =
+    movie.runtime > 60
+      ? `${Math.floor(movie.runtime / 60)}H ${movie.runtime % 60}m`
+      : `${movie.runtime}m`;
   // recursion error, since I am using for the fetch request and the function name
   // since im using loader, I need to do this a different way
   const handleDeleteReview = async (reviewId: string, index: number) => {
@@ -45,7 +49,7 @@ export default function Movie() {
             <span className="flex gap-4">
               <span>{movie.year}</span>
               <span>{movie.rated}</span>
-              <span>{movie.runtime}</span>
+              <span>{runtime}</span>
             </span>
           </div>
           <div className="flex flex-col gap-1">
@@ -105,7 +109,7 @@ export default function Movie() {
                         {review.name +
                           " reviewed on " +
                           new Date(
-                            Date.parse(review.date as string),
+                            Date.parse(review.date as string)
                           ).toDateString()}
                       </h5>
                     </CardHeader>
