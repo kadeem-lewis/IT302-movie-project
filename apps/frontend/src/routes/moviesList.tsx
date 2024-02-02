@@ -35,6 +35,26 @@ export type Movie = {
   reviews: Review[];
 };
 
+export async function movieLoader({ request }) {
+  const url = new URL(request.url);
+  const searchParams = url.searchParams.toString();
+
+  try {
+    const [moviesResponse, ratingsResponse] = await Promise.all([
+      fetch(`/api/v1/movies?${searchParams}`), // replace with your actual API endpoint
+      fetch("/api/v1/movies/ratings"), // replace with your actual API endpoint
+    ]);
+
+    const movies = await moviesResponse.json();
+    const ratings = await ratingsResponse.json();
+
+    return { movies, ratings };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return { movies: [], ratings: [] };
+  }
+}
+
 export default function MoviesList() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [searchTitle, setSearchTitle] = useState("");
@@ -128,12 +148,13 @@ export default function MoviesList() {
               placeholder="Search by title"
               value={searchTitle}
               onChange={onChangeSearchTitle}
+              size="sm"
             />
             <Button type="button" onClick={findByTitle}>
               Search
             </Button>
 
-            <Select onChange={onChangeSearchRating}>
+            <Select onChange={onChangeSearchRating} size="sm">
               {ratings.map((rating) => {
                 return (
                   <SelectItem key={rating} value={rating}>
@@ -173,7 +194,7 @@ export default function MoviesList() {
                   <span>{movie.imdb.rating}</span>
                   <span>
                     {new Date(
-                      Date.parse(movie.released as string),
+                      Date.parse(movie.released as string)
                     ).toDateString()}
                   </span>
                 </CardFooter>
